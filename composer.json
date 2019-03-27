@@ -1,0 +1,6 @@
+{
+  "require": {
+    "wisembly/elephant.io": "^3.3",
+    "bitwasp/bitcoin-lib": "1.0.*"
+  }
+}

@@ -1,0 +1,17 @@
+<?php
+
+namespace DDK\API;
+
+
+class Method {
+
+    const GET_ACCOUNT = 'GET_ACCOUNT';
+    const GET_ACCOUNT_BALANCE = 'GET_ACCOUNT_BALANCE';
+    const GET_TRANSACTION = 'GET_TRANSACTION';
+    const GET_TRANSACTIONS = 'GET_TRANSACTIONS';
+    const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
+    const CREATE_ADDRESS = 'CREATE_ADDRESS';
+    const SEND = 'SEND';
+    const SUBSCRIBE = 'SUBSCRIBE';
+
+}
