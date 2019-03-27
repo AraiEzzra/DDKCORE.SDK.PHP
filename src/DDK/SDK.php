@@ -4,10 +4,12 @@ namespace DDK;
 
 
 use DDK\API\Channel;
+use DDK\API\Filter;
+use DDK\API\Method;
 use DDK\API\Request;
+use DDK\API\Sort;
 use DDK\Client\Connection;
 use DDK\Validation\ArrayKeysValidator;
-use ElephantIO\Payload\Decoder;
 
 
 const SDK_REQUIRED_OPTIONS = [
@@ -40,6 +42,7 @@ class SDK
             $this->config = $config;
         }
     }
+
     public function connection()
     {
         $this->connection = new Connection(
@@ -79,10 +82,79 @@ class SDK
         $this->connection->close();
     }
 
-    public function __call($name, array $args)
+    public function getAccount($address)
     {
-        $args = isset($args[0]) ? $args[0] : [];
-        throw new \BadMethodCallException("Unknown method: {$name}.");
+        $this->request(Method::GET_ACCOUNT,
+            [
+                'address' => $address,
+            ]
+        );
+    }
+
+    public function getAccountBalance($address)
+    {
+        $this->request(Method::GET_ACCOUNT_BALANCE,
+            [
+                'address' => $address,
+            ]
+        );
+    }
+
+    public function getTransaction($id)
+    {
+        $this->request(Method::GET_TRANSACTION,
+            [
+                'id' => $id,
+            ]
+        );
+    }
+
+    public function getTransactions(Filter $filter, Sort $sort, $limit = 10, $offset = 0)
+    {
+
+        $this->request(Method::GET_TRANSACTIONS,
+            [
+                'filter' => $filter,
+                'sort' => $sort,
+                'limit' => $limit,
+                'offset' => $offset,
+            ]
+        );
+    }
+
+    public function createAddress()
+    {
+        return 'BIP39 will generate';
+    }
+
+    public function createAccount($address)
+    {
+        $this->request(Method::CREATE_ACCOUNT,
+            [
+                'address' => $address,
+            ]
+        );
+    }
+
+    public function send($address, $amount)
+    {
+        $this->request(Method::SEND,
+            [
+                'address' => $address,
+                'amount' => $amount,
+            ]
+        );
+    }
+
+    public function subscribe($event, callback $callback)
+    {
+        // todo: $this->connection->send();
+        $channel= constant('\DDK\API\Channel::'. $event);
+
+        $client = $this->connection->client();
+        $client->emit($channel, []);
+
+        $this->read($callback);
     }
 
 }
