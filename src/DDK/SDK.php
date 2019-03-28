@@ -7,6 +7,7 @@ use DDK\API\Channel;
 use DDK\API\Filter;
 use DDK\API\Method;
 use DDK\API\Request;
+use DDK\API\Response;
 use DDK\API\Sort;
 use DDK\Client\Connection;
 use DDK\Validation\ArrayKeysValidator;
@@ -74,7 +75,7 @@ class SDK
         while ($this->connection->isConnected()) {
             $resource = $client->read();
 
-            if (!empty($resource)) {
+            if (!empty($resource) AND (new Response($resource))->validate()) {
                 call_user_func($callback, $resource);
             }
         }
@@ -82,6 +83,9 @@ class SDK
         $this->connection->close();
     }
 
+    /**
+     * @param $address string|number Address of account
+     */
     public function getAccount($address)
     {
         $this->request(Method::GET_ACCOUNT,
@@ -91,6 +95,9 @@ class SDK
         );
     }
 
+    /**
+     * @param $address string Address of account
+     */
     public function getAccountBalance($address)
     {
         $this->request(Method::GET_ACCOUNT_BALANCE,
@@ -100,6 +107,11 @@ class SDK
         );
     }
 
+    /**
+     * Retrieve transaction by ID
+     *
+     * @param $id string Transaction ID
+     */
     public function getTransaction($id)
     {
         $this->request(Method::GET_TRANSACTION,
@@ -109,24 +121,63 @@ class SDK
         );
     }
 
-    public function getTransactions(Filter $filter, Sort $sort, $limit = 10, $offset = 0)
+    /**
+     * Retrieve transactions with filter `limit, offset` and sortering params
+     *
+     * @param int $limit
+     * @param int $offset
+     * @param array $sort
+     * @param array $filter
+     */
+    public function getTransactions($limit = 10, $offset = 0, $sort = [], $filter = [])
     {
+        if ($sort instanceof Sort)
+            $sort = $sort->values();
+
+        if ($filter instanceof Filter)
+            $filter = $filter->values();
 
         $this->request(Method::GET_TRANSACTIONS,
             [
-                'filter' => $filter,
+                'limit' => $limit,
+                'offset' => $offset,
                 'sort' => $sort,
+                'filter' => $filter,
+            ]
+        );
+    }
+
+    /**
+     * Retrieve transaction by Block ID
+     *
+     * @param $blockId string block id
+     * @param int $limit
+     * @param int $offset
+     */
+    public function getTransactionsByBlockId($blockId, $limit = 10, $offset = 0)
+    {
+        $this->request(Method::GET_TRANSACTIONS_BY_BLOCK_ID,
+            [
+                'blockId' => $blockId,
                 'limit' => $limit,
                 'offset' => $offset,
             ]
         );
     }
 
-    public function createAddress()
+    /**
+     * Return passpharse from bitcore-mnemonic
+     *
+     * @return string
+     */
+    public function createPasspharse()
     {
         return 'BIP39 will generate';
     }
 
+    /**
+     * @param $address string
+     */
     public function createAccount($address)
     {
         $this->request(Method::CREATE_ACCOUNT,
@@ -136,6 +187,10 @@ class SDK
         );
     }
 
+    /**
+     * @param $address string|int
+     * @param $amount int
+     */
     public function send($address, $amount)
     {
         $this->request(Method::SEND,

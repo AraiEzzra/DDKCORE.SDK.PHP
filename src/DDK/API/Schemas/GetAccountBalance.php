@@ -9,10 +9,6 @@ class GetAccountBalance {
         'code' => 'GET_ACCOUNT_BALANCE',
         'body' => [
             'address' => null,
-            'filter' => [
-                'limit' => 5,
-                'offset' => 1,
-            ],
         ],
     ];
 }

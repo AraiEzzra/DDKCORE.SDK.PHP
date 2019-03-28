@@ -3,22 +3,15 @@
 namespace DDK\API;
 
 
-
-
 class Headers {
 
     const HeaderType = 1;
 
-    public function __construct()
-    {
-
-    }
-
-    public function baseHeader()
+    public function baseHeader($type = self::HeaderType)
     {
         return [
-            'id' => rand(999999, 1000000),
-            'type' => self::HeaderType
+            'id' => rand(1000, 10000000),
+            'type' => $type,
         ];
     }
 

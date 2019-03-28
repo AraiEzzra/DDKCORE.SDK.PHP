@@ -1,7 +1,7 @@
 <?php
 
-if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-    throw new Exception('The DDK SDK requires PHP version 5.4 or higher.');
+if (version_compare(PHP_VERSION, '5.6.0', '<')) {
+    throw new Exception('The DDK SDK requires PHP version 5.6 or higher.');
 }
 
 
