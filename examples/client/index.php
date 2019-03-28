@@ -4,7 +4,6 @@ require __DIR__ . '/../bootstrap.php';
 
 
 use \DDK\API\Method;
-use \DDK\API\Options;
 
 
 if ($sdk->connection()) {
@@ -18,8 +17,8 @@ if ($sdk->connection()) {
     );
 
     $sdk->read(function ($responseData) use ($sdk) {
-        print "\nResponse Data:\n";
-        print_r($responseData);
+        var_dump($responseData);
+
         $sdk->connectionClose();
     });
 

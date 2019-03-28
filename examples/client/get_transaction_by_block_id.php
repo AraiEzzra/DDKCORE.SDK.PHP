@@ -3,28 +3,19 @@
 require __DIR__ . '/../bootstrap.php';
 
 
-use \DDK\API\Method;
-use \DDK\API\Options;
-
-
 if ($sdk->connection()) {
 
-    $sdk->request(
-        Method::GET_TRANSACTIONS,
-        [
-            'limit' => 100,
-            'offset' => 50,
-        ]
-    );
+    $sdk->getTransactionsByBlockId('b44f40a6b37bbaea8f110d6792cefd73604fc982bfbec0b6d9e5a0a419761818', 20, 10);
 
     $sdk->read(function ($responseData) use ($sdk) {
-        print "\nResponse Data:\n";
-        print_r($responseData);
-        // $sdk->connectionClose();
+        var_dump($responseData);
+
+        $sdk->connectionClose();
     });
 
-    print 'Request finished!';
+    print "Request finished!\n";
 } else {
-    print 'Wrong';
+    print "Wrong\n";
 }
+
 
