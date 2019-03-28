@@ -1,6 +1,8 @@
 {
   "require": {
     "wisembly/elephant.io": "^3.3",
-    "bitwasp/bitcoin-lib": "1.0.*"
+    "fgrosse/phpasn1": "^2.0",
+    "mdanter/ecc": "0.5.2",
+    "bitwasp/bitcoin": "^1.0"
   }
 }

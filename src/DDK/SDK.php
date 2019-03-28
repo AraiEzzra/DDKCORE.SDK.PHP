@@ -10,6 +10,7 @@ use DDK\API\Request;
 use DDK\API\Response;
 use DDK\API\Sort;
 use DDK\Client\Connection;
+use DDK\Crypto\Bip39;
 use DDK\Validation\ArrayKeysValidator;
 
 
@@ -172,7 +173,7 @@ class SDK
      */
     public function createPasspharse()
     {
-        return 'BIP39 will generate';
+        return (new Bip39())->generate();
     }
 
     /**

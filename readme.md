@@ -8,9 +8,10 @@ This repository contains the open source PHP SDK that allows you to access the D
 ### Required
 
 ```
-- php 7
-- extensions 
-    - PHP extension gmp for bitcoin-lib
+- PHP 7
+- PHP extensions 
+    - gmp
+    - bcmath
 ```
 
 
