@@ -24,5 +24,5 @@ composer install
 
 ### Used
 
-Directory `examples` consists examples of the use of the library
+The `examples` directory consists the examples of using this SDK
 
