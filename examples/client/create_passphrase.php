@@ -3,6 +3,6 @@
 require __DIR__ . '/../bootstrap.php';
 
 
-$address = $sdk->createPasspharse();
+$passpharse = $sdk->createPasspharse();
 
-var_dump($address);
+var_dump($passpharse);
