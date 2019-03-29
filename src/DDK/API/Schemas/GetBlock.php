@@ -3,7 +3,8 @@
 namespace DDK\API\Schemas;
 
 
-class GetBlock {
+class GetBlock
+{
     const schema = [
         'headers' => null,
         'code' => 'GET_BLOCK',

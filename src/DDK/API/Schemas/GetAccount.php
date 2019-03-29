@@ -3,7 +3,8 @@
 namespace DDK\API\Schemas;
 
 
-class GetAccount {
+class GetAccount
+{
     const schema = [
         'headers' => null,
         'code' => 'GET_ACCOUNT',
@@ -12,4 +13,3 @@ class GetAccount {
         ],
     ];
 }
-

@@ -3,23 +3,39 @@
 namespace DDK\API;
 
 
-use DDK\API\Method;
+use DDK\API\Schemas\CommonResponse;
 use DDK\Validation\ArrayKeysValidator;
+use ElephantIO\Payload\Decoder;
 
-class Response {
-
-
+class Response
+{
+    private $eventName;
 
     private $responseData = [];
 
     public function __construct($response)
     {
-        $this->responseData = $response;
+        $this->removeMagicNumber($response);
     }
 
-    public function validate()
+    public function removeMagicNumber($response)
     {
-        return ArrayKeysValidator::validate($this->responseData, ['headers', 'code', 'body']);
+        if (strpos($response, '42') === 0) {
+            $response = json_decode(substr($response, 2), true);
+        }
+
+        $this->eventName = $response[0];
+        $this->responseData = $response[1];
+    }
+
+    public function validate(): bool
+    {
+        return ArrayKeysValidator::validate($this->responseData, CommonResponse::keys());
+    }
+
+    public function data(): array
+    {
+        return $this->responseData;
     }
 
 }

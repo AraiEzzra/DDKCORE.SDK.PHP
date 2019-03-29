@@ -63,10 +63,7 @@ class SDK
     public function request($method, array $options = [])
     {
         $request = new Request($method, $options);
-
-        // todo: $this->connection->send();
-        $client = $this->connection->client();
-        $client->emit(Channel::MESSAGE_CHANNEL, $request->prepareOption());
+        $this->connection->clientEmitEvent(Channel::MESSAGE_CHANNEL, $request);
     }
 
     public function read(callable $callback)
@@ -75,9 +72,10 @@ class SDK
 
         while ($this->connection->isConnected()) {
             $resource = $client->read();
+            $response = new Response($resource);
 
-            if (!empty($resource) AND (new Response($resource))->validate()) {
-                call_user_func($callback, $resource);
+            if (!empty($resource) AND $response->validate()) {
+                call_user_func($callback, $response->data());
             }
         }
 
@@ -204,12 +202,8 @@ class SDK
 
     public function subscribe($event, callback $callback)
     {
-        // todo: $this->connection->send();
-        $channel= constant('\DDK\API\Channel::'. $event);
-
-        $client = $this->connection->client();
-        $client->emit($channel, []);
-
+        $channel = constant('\DDK\API\Channel::'. $event);
+        $this->connection->clientEmitEvent($channel);
         $this->read($callback);
     }
 

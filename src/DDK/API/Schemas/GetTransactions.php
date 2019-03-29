@@ -3,7 +3,8 @@
 namespace DDK\API\Schemas;
 
 
-class GetTransactions {
+class GetTransactions
+{
     const schema = [
         'headers' => null,
         'code' => 'GET_TRANSACTIONS',

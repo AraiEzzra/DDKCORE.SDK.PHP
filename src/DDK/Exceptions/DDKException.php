@@ -1,10 +1,11 @@
 <?php
 
+namespace DDK\Exceptions;
 
-class DDKException extends Exception
+
+class DDKException extends \Exception
 {
-
-    public $messageIntro = 'DDK SDK Specificity Exception: ';
+    private $messageIntro = 'DDK\SDK Specificity Exception: ';
 
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {

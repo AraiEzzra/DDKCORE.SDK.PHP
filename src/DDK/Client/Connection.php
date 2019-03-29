@@ -2,6 +2,8 @@
 
 namespace DDK\Client;
 
+use DDK\API\Channel;
+use DDK\API\Request;
 use ElephantIO\Client;
 use ElephantIO\Engine\SocketIO\Version2X;
 use DDK\Validation\UrlValidator;
@@ -60,9 +62,14 @@ class Connection
     /**
      * @return Client
      */
-    public function client()
+    public function client(): Client
     {
         return $this->client;
+    }
+
+    public function clientEmitEvent($channel, Request $request = null)
+    {
+        $this->client->emit($channel, $request ? $request->prepareOption() : []);
     }
 
     /**
@@ -74,7 +81,7 @@ class Connection
         $this->connected = false;
     }
 
-    public function isConnected()
+    public function isConnected(): bool
     {
         return $this->connected;
     }

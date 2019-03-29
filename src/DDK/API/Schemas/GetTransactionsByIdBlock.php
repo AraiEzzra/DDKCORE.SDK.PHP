@@ -3,7 +3,8 @@
 namespace DDK\API\Schemas;
 
 
-class GetTransactionsByIdBlock {
+class GetTransactionsByIdBlock
+{
     const schema = [
         'headers' => null,
         'code' => 'GET_TRANSACTIONS_BY_BLOCK_ID',
