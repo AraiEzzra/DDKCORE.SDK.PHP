@@ -24,8 +24,10 @@ class Response
             $response = json_decode(substr($response, 2), true);
         }
 
-        $this->eventName = $response[0];
-        $this->responseData = $response[1];
+        if (is_array($response) AND count($response) === 2) {
+            $this->eventName = $response[0];
+            $this->responseData = $response[1];
+        }
     }
 
     public function validate(): bool

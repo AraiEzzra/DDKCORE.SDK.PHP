@@ -4,5 +4,8 @@
     "fgrosse/phpasn1": "^2.0",
     "mdanter/ecc": "0.5.2",
     "bitwasp/bitcoin": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.5"
   }
 }

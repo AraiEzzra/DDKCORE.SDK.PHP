@@ -10,7 +10,7 @@ if ($sdk->connection()) {
     // You can catch `TypeError` exceptions to avoid critical errors when validating a response for example
     try {
         $sdk->read(function ($responseData) use ($sdk) {
-            var_dump($responseData);
+            print_r(json_encode($responseData));
 
             // If connection was not closed, reading will be closed in a loop
             $sdk->connectionClose();

@@ -32,6 +32,6 @@ class Request {
      */
     public function prepareOption()
     {
-        return $this->schema;
+        return [$this->schema];
     }
 }

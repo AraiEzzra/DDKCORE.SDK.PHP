@@ -34,11 +34,11 @@ class Connection
      */
     public function __construct($host, $port)
     {
-        $this->url = "$host:$port";
-
         if (!strpos($host, '://')) {
-            $this->url =  "http://" . $this->url;
+            $host =  "http://" . $host;
         }
+
+        $this->url = sprintf('%s:%s', $host, $port);
 
         UrlValidator::validate($this->url);
 
@@ -48,6 +48,7 @@ class Connection
 
         } catch (ServerConnectionFailureException $ex) {
             $this->connected = false;
+            throw new ServerConnectionFailureException('Server connection to "'.$this->url.'" is failed');
         }
 
         $this->connected = true;
