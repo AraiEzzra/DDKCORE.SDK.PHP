@@ -5,6 +5,8 @@ namespace DDK\Client;
 use DDK\API\Channel;
 use DDK\API\Request;
 use ElephantIO\Client;
+use ElephantIO\Engine\SocketIO\Version0X;
+use ElephantIO\Engine\SocketIO\Version1X;
 use ElephantIO\Engine\SocketIO\Version2X;
 use DDK\Validation\UrlValidator;
 use ElephantIO\Exception\ServerConnectionFailureException;
@@ -43,16 +45,15 @@ class Connection
         UrlValidator::validate($this->url);
 
         try {
-            $this->client = new Client(new Version2X($this->url));
+            $socketIOVersion = new Version2X($this->url);
+            $this->client = new Client($socketIOVersion);
             $this->client->initialize();
 
         } catch (ServerConnectionFailureException $ex) {
-            $this->connected = false;
             throw new ServerConnectionFailureException('Server connection to "'.$this->url.'" is failed');
         }
 
         $this->connected = true;
-
     }
 
     public function __destruct()

@@ -1,0 +1,16 @@
+version: '2'
+services:
+    redis:
+        image: redis
+
+    websocket:
+        image: socketio
+        depends_on:
+            - redis
+        links:
+            - redis
+        volumes:
+            - ./socket.js:/srv/socket.js
+            - ./.data/websocket:/srv/logs
+        ports:
+            - "3000:3000"

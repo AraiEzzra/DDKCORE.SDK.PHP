@@ -1,4 +1,5 @@
-
+Changelog DDKCORE.SDK.PHP API Client
+====================================
 
 ### 0.0.2
 - change connector parser into constructor and added connection failed exception `ServerConnectionFailureException`
