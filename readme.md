@@ -14,6 +14,7 @@ This repository contains the open source PHP SDK that allows you to access the D
     - gmp
     - mcrypt
     - bcmath
+    - dom
 ```
 
 

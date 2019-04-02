@@ -12,10 +12,7 @@
   "autoload": {
     "psr-4": {
       "DDK\\": "src/DDK/"
-    },
-    "classmap": [
-      "src/"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {
