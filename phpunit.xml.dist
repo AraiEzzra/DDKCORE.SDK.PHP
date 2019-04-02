@@ -9,17 +9,18 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="vendor/autoload.php"
+         bootstrap="./vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="DDKCORE.SDK.PHPTest Suite">
-            <directory>./tests/</directory>
+        <testsuite name="test">
+            <directory>./test/</directory>
+            <file>./test/cases.php</file>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">./src/</directory>
+            <directory suffix=".php">./src/DDK/</directory>
         </whitelist>
     </filter>
 </phpunit>

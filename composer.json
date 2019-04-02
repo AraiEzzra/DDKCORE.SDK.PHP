@@ -1,5 +1,6 @@
 {
   "require": {
+    "php": ">=7",
     "wisembly/elephant.io": "^3.3",
     "fgrosse/phpasn1": "^2.0",
     "mdanter/ecc": "0.5.2",
@@ -7,5 +8,18 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "DDK\\": "src/DDK/"
+    },
+    "classmap": [
+      "src/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "DDKTest\\": "test/DDK/"
+    }
   }
 }

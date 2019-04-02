@@ -9,7 +9,7 @@ This repository contains the open source PHP SDK that allows you to access the D
 
 ```
 - Composer
-- PHP 7
+- PHP 7+
 - PHP extensions 
     - gmp
     - mcrypt

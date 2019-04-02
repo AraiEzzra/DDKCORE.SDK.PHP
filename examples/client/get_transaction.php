@@ -8,7 +8,7 @@ if ($sdk->connection()) {
     $sdk->getTransaction('f0bb22ee63fd07be1c8250662e418bc57c5dbeaa210773ce5dae248fb252d366');
 
     $sdk->read(function ($responseData) use ($sdk) {
-        var_dump($responseData);
+        print_r(json_encode($responseData));
 
         $sdk->connectionClose();
     });
