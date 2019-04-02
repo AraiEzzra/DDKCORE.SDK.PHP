@@ -14,7 +14,7 @@
     <testsuites>
         <testsuite name="test">
             <directory>./test/</directory>
-            <file>./test/cases.php</file>
+            <file>./test/bootstrap.php</file>
         </testsuite>
     </testsuites>
 
