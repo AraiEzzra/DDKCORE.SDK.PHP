@@ -9,10 +9,13 @@ use DDK\API\Filter;
 use DDK\API\Method;
 use DDK\API\Request;
 use DDK\API\Response;
+use DDK\API\Schemas\CreateTransactionAsset;
 use DDK\API\Sort;
+use DDK\API\TransactionType;
 use DDK\Client\Connection;
 use DDK\Crypto\Bip39;
 use DDK\Validation\ArrayKeysValidator;
+use DDK\Crypto\KeyPair;
 
 
 const SDK_REQUIRED_OPTIONS = [
@@ -26,7 +29,7 @@ class SDK
     /**
      * SDK version
      */
-    const VERSION = '0.0.3';
+    const VERSION = '0.0.4';
 
     /**
      * @var array
@@ -61,9 +64,9 @@ class SDK
         $this->connection->close();
     }
 
-    public function request($method, array $options = [])
+    public function request($method, array $bodyOptions = [], string $code = null)
     {
-        $request = new Request($method, $options);
+        $request = new Request($method, $bodyOptions, $code);
         $this->connection->clientEmitEvent(Channel::MESSAGE_CHANNEL, $request);
     }
 
@@ -142,7 +145,7 @@ class SDK
                 'limit' => $limit,
                 'offset' => $offset,
                 'sort' => $sort,
-                'filter' => $filter,
+                'filter' => (object) $filter,
             ]
         );
     }
@@ -175,33 +178,62 @@ class SDK
         return Bip39::generate();
     }
 
-    /**
-     * @param $address string
-     */
-    public function createAccount($address)
+    public function createAccount()
     {
-        $this->request(Method::CREATE_ACCOUNT,
+        $secret = $this->createPasspharse();
+
+        // TODO: When will fix CORE API change that type to TransactionType::REGISTER
+        $type = TransactionType::SEND;
+        $this->createTransaction($secret, $type, [
+            "amount" => 100000,
+            "recipientAddress" => "99999999999999999999"
+        ]);
+    }
+
+    /**
+     * @param string $secret
+     * @param int $type
+     * @param array $asset
+     */
+    public function createTransaction(string $secret, int $type, array $asset = [])
+    {
+        $publickey = KeyPair::makePublickey($secret);
+        $this->request(Method::CREATE_TRANSACTION,
             [
-                'address' => $address,
+                'secret' => $secret,
+                'trs' => [
+                    'senderPublicKey' => $publickey,
+                    'type' => $type,
+                    'asset' => $asset ? $asset : new \stdClass(),
+                ],
             ]
         );
     }
 
     /**
-     * @param $address string|int
-     * @param $amount int
+     * @param $secret
+     * @param $recipientAddress
+     * @param $amount
      */
-    public function send($address, $amount)
+    public function send(string $secret, string $recipientAddress, int $amount)
     {
-        $this->request(Method::SEND,
+        $publickey = KeyPair::makePublickey($secret);
+        $this->request(Method::CREATE_TRANSACTION,
             [
-                'address' => $address,
-                'amount' => $amount,
+                'secret' => $secret,
+                'trs' => [
+                    'senderPublicKey' => $publickey,
+                    'type' => TransactionType::SEND,
+                    'asset' => [
+                        'recipientAddress' => $recipientAddress,
+                        'amount' => $amount,
+                    ]
+                ],
             ]
         );
     }
 
-    public function subscribe($event, callback $callback)
+    public function subscribe($event, Callable $callback)
     {
         $channel = constant('\DDK\API\Channel::'. $event);
         $this->connection->clientEmitEvent($channel);

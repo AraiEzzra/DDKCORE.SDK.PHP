@@ -3,7 +3,8 @@
 namespace DDK\API;
 
 
-class Channel {
+class Channel
+{
 
     const MESSAGE_CHANNEL = 'message';
     const CONNECT_CHANNEL = 'connect';

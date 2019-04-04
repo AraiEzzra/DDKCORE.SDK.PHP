@@ -4,7 +4,7 @@ namespace DDK\API;
 
 
 use DDK\API\Method;
-use DDK\API\Headers;
+use DDK\API\Header;
 use DDK\API\Options;
 use DDK\API\Schema;
 
@@ -12,15 +12,20 @@ class Request {
 
     private $schema;
 
-    public function __construct($methodName, array $options = [])
+    public function __construct($methodName, array $body = [], string $code = null)
     {
         // TODO: validate me more
         if (defined("\DDK\API\Method::$methodName")) {
-            $headers = new Headers();
+            $headers = new Header();
 
             $this->schema = constant('\DDK\API\Schema::'. $methodName);
-            $this->schema['headers'] = $headers->baseHeader();
-            $this->schema['body'] = array_merge($this->schema['body'], $options);
+            $this->schema['headers'] = $headers->baseHeaders();
+            $this->schema['body'] = array_merge($this->schema['body'], $body);
+
+            if ($code) {
+                $this->schema['code'] = $code;
+            }
+
         } else {
             throw new \DDKException('API Method not found!');
         }
@@ -32,6 +37,6 @@ class Request {
      */
     public function prepareOption()
     {
-        return [$this->schema];
+        return $this->schema;
     }
 }

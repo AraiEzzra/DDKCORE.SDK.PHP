@@ -1,7 +1,7 @@
 {
   "name": "ddk/phpsdk",
   "require": {
-    "php": ">=7",
+    "php": ">=7.2",
     "ext-json": "*",
     "wisembly/elephant.io": "^3.3",
     "fgrosse/phpasn1": "^2.0",
