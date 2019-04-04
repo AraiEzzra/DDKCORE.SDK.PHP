@@ -18,7 +18,17 @@ class Response
         $this->removeMagicNumber($response);
     }
 
-    public function removeMagicNumber($response)
+    public function validate(): bool
+    {
+        return ArrayKeysValidator::validate($this->responseData, CommonResponse::keys());
+    }
+
+    public function data(): array
+    {
+        return $this->responseData;
+    }
+
+    private function removeMagicNumber($response)
     {
         if (strpos($response, '42') === 0) {
             $response = json_decode(substr($response, 2), true);
@@ -28,16 +38,6 @@ class Response
             $this->eventName = $response[0];
             $this->responseData = $response[1];
         }
-    }
-
-    public function validate(): bool
-    {
-        return ArrayKeysValidator::validate($this->responseData, CommonResponse::keys());
-    }
-
-    public function data(): array
-    {
-        return $this->responseData;
     }
 
 }

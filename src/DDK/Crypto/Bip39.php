@@ -9,7 +9,7 @@ use \BitWasp\Bitcoin\Mnemonic\Bip39\Bip39Mnemonic;
 
 class Bip39
 {
-    public function generate ()
+    public static function generate ()
     {
         $random = new Random();
         $entropy = $random->bytes(Bip39Mnemonic::MIN_ENTROPY_BYTE_LEN);

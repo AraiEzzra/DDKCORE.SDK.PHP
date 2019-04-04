@@ -1,6 +1,8 @@
 {
+  "name": "ddk/phpsdk",
   "require": {
     "php": ">=7",
+    "ext-json": "*",
     "wisembly/elephant.io": "^3.3",
     "fgrosse/phpasn1": "^2.0",
     "mdanter/ecc": "0.5.2",

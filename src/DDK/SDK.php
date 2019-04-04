@@ -2,6 +2,7 @@
 
 namespace DDK;
 
+ini_set("default_socket_timeout", -1);
 
 use DDK\API\Channel;
 use DDK\API\Filter;
@@ -171,7 +172,7 @@ class SDK
      */
     public function createPasspharse()
     {
-        return (new Bip39())->generate();
+        return Bip39::generate();
     }
 
     /**
