@@ -2,6 +2,8 @@
 
 namespace DDK\Crypto;
 
+use BitWasp\Buffertools\Buffer;
+
 class KeyPair
 {
     const CRYPTO_SIGN_SECRETKEYBYTES = 64;
@@ -20,8 +22,22 @@ class KeyPair
     {
         $binKeyPair = sodium_crypto_sign_seed_keypair(hash('sha256', $secret, true));
         $hexKeyPair = bin2hex($binKeyPair);
-        return array('publicKey' => substr($hexKeyPair, 0, self::CRYPTO_SIGN_SECRETKEYBYTES),
-        'secretKey' => substr($hexKeyPair, self::CRYPTO_SIGN_SECRETKEYBYTES, self::CRYPTO_SIGN_PUBLICKEYBYTES)
+        return array(
+            'secretKey' => substr($hexKeyPair, 0, self::CRYPTO_SIGN_SECRETKEYBYTES),
+            'publicKey' => substr($hexKeyPair, self::CRYPTO_SIGN_SECRETKEYBYTES, self::CRYPTO_SIGN_PUBLICKEYBYTES)
         );
+    }
+
+    public function getAddressFromPublicKey(string $key)
+    {
+        $hash = hash('sha256', hex2bin($key));
+        $buffer = Buffer::hex($hash);
+
+        $items = [];
+        for ($i = 0; $i < 8; $i++) {
+            $items[$i] = $buffer->slice((8 - 1 - $i), 1)->getHex();
+        }
+
+        return Buffer::hex(implode('', $items))->getInt();
     }
 }
