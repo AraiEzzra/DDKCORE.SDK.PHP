@@ -181,13 +181,11 @@ class SDK
     public function createAccount()
     {
         $secret = $this->createPasspharse();
-
-        // TODO: When will fix CORE API change that type to TransactionType::REGISTER
-        $type = TransactionType::SEND;
-        $this->createTransaction($secret, $type, [
-            "amount" => 100000,
-            "recipientAddress" => "99999999999999999999"
-        ]);
+        $keyPair = KeyPair::makeKeyPair($secret);
+        return array(
+            'address' => KeyPair::getAddressFromPublicKey($keyPair['publicKey']),
+            'publicKey' => $keyPair['publicKey'],
+        );
     }
 
     /**
@@ -197,12 +195,12 @@ class SDK
      */
     public function createTransaction(string $secret, int $type, array $asset = [])
     {
-        $publickey = KeyPair::makePublickey($secret);
+        $keyPair = KeyPair::makeKeyPair($secret);
         $this->request(Method::CREATE_TRANSACTION,
             [
                 'secret' => $secret,
                 'trs' => [
-                    'senderPublicKey' => $publickey,
+                    'senderPublicKey' => $keyPair['publicKey'],
                     'type' => $type,
                     'asset' => $asset ? $asset : new \stdClass(),
                 ],
@@ -217,12 +215,12 @@ class SDK
      */
     public function send(string $secret, string $recipientAddress, int $amount)
     {
-        $publickey = KeyPair::makePublickey($secret);
+        $keyPair = KeyPair::makeKeyPair($secret);
         $this->request(Method::CREATE_TRANSACTION,
             [
                 'secret' => $secret,
                 'trs' => [
-                    'senderPublicKey' => $publickey,
+                    'senderPublicKey' => $keyPair['publicKey'],
                     'type' => TransactionType::SEND,
                     'asset' => [
                         'recipientAddress' => $recipientAddress,
