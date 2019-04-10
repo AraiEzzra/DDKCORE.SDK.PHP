@@ -4,8 +4,8 @@ require __DIR__ . '/../bootstrap.php';
 
 
 if ($sdk->connection()) {
-
-    $account = $sdk->createAccount();
+    $passpharse = $sdk->createPasspharse();
+    $account = $sdk->createAccount($passpharse);
     var_dump($account);
 } else {
     print "Wrong\n";

@@ -178,9 +178,8 @@ class SDK
         return Bip39::generate();
     }
 
-    public function createAccount()
+    public function createAccount($secret)
     {
-        $secret = $this->createPasspharse();
         $keyPair = KeyPair::makeKeyPair($secret);
         return array(
             'address' => KeyPair::getAddressFromPublicKey($keyPair['publicKey']),

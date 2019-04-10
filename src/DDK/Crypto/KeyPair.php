@@ -28,7 +28,7 @@ class KeyPair
         );
     }
 
-    public function getAddressFromPublicKey(string $key)
+    public static function getAddressFromPublicKey(string $key)
     {
         $hash = hash('sha256', hex2bin($key));
         $buffer = Buffer::hex($hash);
